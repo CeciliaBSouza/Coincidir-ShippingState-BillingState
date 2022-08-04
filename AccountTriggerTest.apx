@@ -1,0 +1,51 @@
+@isTest
+public class AccountTriggerTest {
+    @isTest 
+    public static void test1() {
+		List<Account> testes = new List<Account> ();
+        
+        for (integer a=0;a<200;a++){
+            Account d= new Account();
+            d.Name='Oi';
+            d.Type='Other';
+            d.BillingState='CA';
+            testes.add (d);
+
+        }
+        Test.startTest();
+        insert testes;
+        Test.stopTest();
+        List<Account> testes2 = [select id,BillingState,ShippingState, name From Account Where BillingState IN ('CA')];
+		system.assertEquals(testes2.size(),200);
+        for (account a: testes2){
+           system.assertEquals(a.ShippingState,a.BillingState);
+           system.assertEquals(a.ShippingState,'CA');
+           
+
+            
+        }
+
+
+    }
+     @isTest 
+    public static void test2() {
+		List<Account> testes = new List<Account> ();
+        
+        for (integer a=0;a<200;a++){
+            Account d= new Account();
+            d.Name='oi';
+            d.Type='other';
+            d.BillingState='CA';
+            testes.add (d);
+
+        }
+         Test.startTest();
+        Database.SaveResult[] result = Database.insert(testes,false);
+        Test.stopTest();
+        // Verificar se adicionou o dado com sucesso. 
+       
+        for (Database.SaveResult res : result){
+            System.assert(res.isSuccess());
+        }
+    }}
+    
